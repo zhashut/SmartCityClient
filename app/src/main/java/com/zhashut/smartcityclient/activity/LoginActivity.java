@@ -1,35 +1,37 @@
 package com.zhashut.smartcityclient.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.zhashut.smartcityclient.R;
 import com.zhashut.smartcityclient.bean.LoginRes;
-import com.zhashut.smartcityclient.common.ReqCallback;
 import com.zhashut.smartcityclient.utils.AnimationUtil;
+import com.zhashut.smartcityclient.utils.HttpUtil;
+import com.zhashut.smartcityclient.utils.TextUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import static com.zhashut.smartcityclient.common.RequestUrl.LOGIN_URL;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
     private EditText et_name;
     private EditText et_psw;
     private CheckBox ck_remember;
@@ -40,7 +42,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private int count;
     private SharedPreferences preferences;
     private LoginRes userInfo;
-    ReqCallback callback;
+    private HttpUtil httpUtil = new HttpUtil();
     private Handler handler = new Handler(Looper.myLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -72,6 +74,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         preferences = getSharedPreferences("cfg", MODE_PRIVATE);
         et_name = findViewById(R.id.et_name);
         et_psw = findViewById(R.id.et_psw);
+        et_name.addTextChangedListener(this);
+        et_psw.addTextChangedListener(this);
         ck_remember = findViewById(R.id.ck_remember);
         iv_rotate = findViewById(R.id.iv_rotate);
         tv_wait = findViewById(R.id.tv_wait);
@@ -161,9 +165,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             jsonObject.put("password", password);
             Log.i("log", jsonObject.toString());
             // 回调类实例
-            callback = new ReqCallback();
             // 回调方法
-            callback.CallBack(LOGIN_URL, jsonObject.toString(), handler, LoginRes.class);
+            httpUtil.JsonReqCallBack(LOGIN_URL, jsonObject.toString(), handler, LoginRes.class);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -181,5 +184,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         SharedPreferences.Editor edit = preferences.edit();
         edit.putInt("count", ++count);
         edit.apply();
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        TextUtil.limitInput(et_name);
+        TextUtil.limitInput(et_psw);
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }

@@ -1,7 +1,5 @@
 package com.zhashut.smartcityclient.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -12,10 +10,12 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.zhashut.smartcityclient.R;
-import com.zhashut.smartcityclient.common.ReqCallback;
 import com.zhashut.smartcityclient.common.ReqResult;
 import com.zhashut.smartcityclient.common.ResultEntity;
+import com.zhashut.smartcityclient.utils.HttpUtil;
 
 import org.json.JSONObject;
 
@@ -32,7 +32,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public TextView tv_wait;
     private RadioGroup rg_sex;
     private int sex;
-    ReqCallback callback = new ReqCallback();
+    private HttpUtil httpUtil = new HttpUtil();
     private Handler handler = ReqResult.ResultHandler(RegisterActivity.this, LoginActivity.class, "注册成功");
 
     @Override
@@ -93,7 +93,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             jsonObject.put("phonenumber", phone);
             jsonObject.put("sex", sex);
             // 回调方法
-            callback.CallBack(REGISTER_URL, jsonObject.toString(), handler, ResultEntity.class);
+            httpUtil.JsonReqCallBack(REGISTER_URL, jsonObject.toString(), handler, ResultEntity.class);
         } catch (Exception e) {
             e.printStackTrace();
         }

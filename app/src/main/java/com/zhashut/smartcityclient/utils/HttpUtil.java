@@ -45,6 +45,51 @@ public class HttpUtil {
         });
     }
 
+    // 查询新闻
+    public <T> void NewsListWithKeyword(String url, String type, String keyword, Handler handler, Class<T> tClass) {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder().url(url + "?" + type + "=" + keyword).build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                Message message = Message.obtain();
+                String respJson = response.body().string();
+                Gson gson = new Gson();
+                Object info = gson.fromJson(respJson, (Type) tClass);
+                message.obj = info;
+                handler.sendMessage(message);
+            }
+
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+            }
+        });
+    }
+
+    // GET - 统一获取列表请求
+    public <T> void CommonList(String url, Handler handler, Class<T> tClass) {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder().url(url).build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                Message message = Message.obtain();
+                String respJson = response.body().string();
+                Gson gson = new Gson();
+                Object info = gson.fromJson(respJson, (Type) tClass);
+                message.obj = info;
+                handler.sendMessage(message);
+            }
+
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+            }
+        });
+    }
+
+
     // 请求类型：application/json，带json数据
     public static void JsonReq(String url, String object, Callback callback) {
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -52,6 +97,7 @@ public class HttpUtil {
         Request request = new Request.Builder().url(url).post(requestBody).build();
         okHttpClient.newCall(request).enqueue(callback);
     }
+
     // 请求类型：application/json，带token
     // 请求类型：application/json，带token和json参数
     public static void JsonReq(String url, String token, String object, Callback callback) {

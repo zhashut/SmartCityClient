@@ -1,11 +1,11 @@
 package com.zhashut.smartcityclient.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import com.zhashut.smartcityclient.R;
 import com.zhashut.smartcityclient.adapter.LaunchAdapter;

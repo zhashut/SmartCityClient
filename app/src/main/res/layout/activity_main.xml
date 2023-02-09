@@ -16,7 +16,7 @@
     <LinearLayout
         android:id="@+id/layout_bottom"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="65dp"
         android:background="@color/tab_grey"
         android:orientation="horizontal">
 
