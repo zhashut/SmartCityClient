@@ -18,4 +18,7 @@ public class RequestUrl {
 
     // 查询所有服务
     public final static String SERVICE_URL = REQUEST_URL + "/prod-api/api/service/list";
+
+    // 获取新闻分类
+    public final static String PRESS_CATEGORY_URL = REQUEST_URL + "/prod-api/press/category/list";
 }

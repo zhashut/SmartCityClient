@@ -1,10 +1,13 @@
 package com.zhashut.smartcityclient.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Handler;
@@ -22,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zhashut.smartcityclient.R;
+import com.zhashut.smartcityclient.activity.SearchNewsActivity;
 import com.zhashut.smartcityclient.adapter.SliderAdapter;
 import com.zhashut.smartcityclient.bean.News;
 import com.zhashut.smartcityclient.bean.Rotation;
@@ -40,12 +44,15 @@ import static com.zhashut.smartcityclient.common.RequestUrl.SERVICE_URL;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment implements TextView.OnEditorActionListener {
     private final String TYPE = "title";
     private View view;
+    private int childCount;
+    private ImageView iv_icon;
+    private TextView tv_name;
+    private FragmentManager fm;
     HttpUtil httpUtil = new HttpUtil();
 
     // TODO 查询新闻列表回调
@@ -79,9 +86,7 @@ public class HomeFragment extends Fragment implements TextView.OnEditorActionLis
             initViewGridLayout(service.serviceLists);
         }
     };
-    private int childCount;
-    private ImageView iv_icon;
-    private TextView tv_name;
+    private EditText etSearch;
 
     // 首页轮播图加载成功
     private void rotationSuccess(List<Rotation.RotationList> rotationLists) {
@@ -90,32 +95,33 @@ public class HomeFragment extends Fragment implements TextView.OnEditorActionLis
         pagerSlider.setAdapter(sliderAdapter);
     }
 
-    //  TODO 查询新闻列表成功
+    //  查询新闻列表成功跳转列表页
     private void searchNewsSuccess(News news) {
-
+        Intent intent = new Intent(getActivity(), SearchNewsActivity.class);
+        intent.putExtra("news", news);
+        etSearch.setText("");
+        startActivity(intent);
     }
 
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
-        }
-    }
+//    public static HomeFragment newInstance(String param1, String param2) {
+//        HomeFragment fragment = new HomeFragment();
+//        Bundle args = new Bundle();
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
+//
+//    @Override
+//    public void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        fm = getFragmentManager();
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
-        EditText etSearch = view.findViewById(R.id.et_search);
+        etSearch = view.findViewById(R.id.et_search);
         etSearch.setOnEditorActionListener(this);
         return view;
     }
