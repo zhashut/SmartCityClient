@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +17,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.PagerTabStrip;
+import androidx.viewpager.widget.ViewPager;
 
 import com.zhashut.smartcityclient.R;
+import com.zhashut.smartcityclient.adapter.NewsAdapter;
 import com.zhashut.smartcityclient.adapter.NewsListAdapter;
 import com.zhashut.smartcityclient.bean.News;
 import com.zhashut.smartcityclient.bean.PressCategory;
@@ -36,10 +40,8 @@ import static com.zhashut.smartcityclient.common.RequestUrl.PRESS_CATEGORY_URL;
  * create an instance of this fragment.
  */
 public class NewsFragment extends Fragment {
-    private final String TYPE = "type";
     private View view;
-    private LinearLayout ll_news;
-    private TextView[] textViews;
+    private ViewPager vpNews;
     private NewsListAdapter newsListAdapter;
     HttpUtil httpUtil = new HttpUtil();
 
@@ -53,50 +55,10 @@ public class NewsFragment extends Fragment {
         }
     };
 
-    // 查询新闻列表
-    private Handler pressListHandler = new Handler(Looper.myLooper()) {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            News newsList = (News) msg.obj;
-            initPressListAdapter(newsList.newsLists);
-        }
-    };
-
-    // 新闻列表适配器
-    private void initPressListAdapter(List<News.NewsList> newsLists) {
-        ListView lvNews = view.findViewById(R.id.lv_news);
-        newsListAdapter = new NewsListAdapter(getContext(), newsLists);
-        lvNews.setAdapter(newsListAdapter);
-    }
-
     // 获取新闻分类成功
     private void pressSuccess(List<PressCategory.PressList> pressLists) {
-        int count = pressLists.size();
-        textViews = new TextView[count];
-        for (int i = 0; i < count; i++) {
-            PressCategory.PressList pressList = pressLists.get(i);
-            textViews[i] = new TextView(getContext());
-            textViews[i].setLayoutParams(new LinearLayout.LayoutParams(
-                    0,
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    1.0f
-            ));
-            textViews[i].setGravity(Gravity.CENTER);
-            textViews[i].setTextColor(Color.BLACK);
-            textViews[i].setTextSize(17.0f);
-            textViews[i].setText(pressList.name);
-            ll_news.addView(textViews[i]);
-            setTextViewOnClick(i, pressList.id);
-        }
-    }
-
-    private void setTextViewOnClick(int i, int id) {
-        TextView tv_news = (TextView) ll_news.getChildAt(i);
-        String idStr = String.valueOf(id);
-        tv_news.setOnClickListener(v -> {
-            httpUtil.NewsListWithKeyword(NEWS_LIST, TYPE, idStr, pressListHandler, News.class);
-        });
+        NewsAdapter newsAdapter = new NewsAdapter(getFragmentManager(), pressLists);
+        vpNews.setAdapter(newsAdapter);
     }
 
     public static NewsFragment newInstance(News news) {
@@ -121,7 +83,9 @@ public class NewsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_news, container, false);
-        ll_news = view.findViewById(R.id.ll_news);
+        PagerTabStrip ptsNews = view.findViewById(R.id.pts_news);
+        ptsNews.setTextSize(TypedValue.COMPLEX_UNIT_SP, 19);
+        vpNews = view.findViewById(R.id.vp_news);
         return view;
     }
 

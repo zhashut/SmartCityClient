@@ -1,4 +1,4 @@
-package com.zhashut.smartcityclient.adapter;
+ package com.zhashut.smartcityclient.adapter;
 
 import android.content.Context;
 import android.text.Html;

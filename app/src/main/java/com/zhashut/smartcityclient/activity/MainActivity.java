@@ -1,6 +1,7 @@
 package com.zhashut.smartcityclient.activity;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -50,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
                 .add(R.id.layout_container, fragments.get(2))
                 .add(R.id.layout_container, fragments.get(3))
                 .add(R.id.layout_container, fragments.get(4))
+                .hide(fragments.get(1))
+                .hide(fragments.get(2))
+                .hide(fragments.get(3))
+                .hide(fragments.get(4))
                 .commit();
     }
 
