@@ -25,19 +25,4 @@ public class TextUtil {
             et.setSelection(resStr.length());
         }
     }
-
-    // 设置新闻导航条
-    public static void setNewsTextView(TextView tv, String text) {
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                0,
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                1.0f
-
-        );
-        tv.setLayoutParams(params);
-        tv.setGravity(Gravity.CENTER);
-        tv.setTextColor(Color.BLACK);
-        tv.setTextSize(17.0f);
-        tv.setText(text);
-    }
 }

@@ -36,13 +36,11 @@ import static com.zhashut.smartcityclient.common.RequestUrl.PRESS_CATEGORY_URL;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link NewsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class NewsFragment extends Fragment {
     private View view;
     private ViewPager vpNews;
-    private NewsListAdapter newsListAdapter;
     HttpUtil httpUtil = new HttpUtil();
 
     // 查询新闻分类回调
@@ -59,18 +57,6 @@ public class NewsFragment extends Fragment {
     private void pressSuccess(List<PressCategory.PressList> pressLists) {
         NewsAdapter newsAdapter = new NewsAdapter(getFragmentManager(), pressLists);
         vpNews.setAdapter(newsAdapter);
-    }
-
-    public static NewsFragment newInstance(News news) {
-        NewsFragment fragment = new NewsFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     // 加载网络请求

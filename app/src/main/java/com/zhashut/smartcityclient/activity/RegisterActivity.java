@@ -72,11 +72,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     return;
                 } else if (phone.length() != 11) {
                     Toast.makeText(this, "手机号码格式不正确", Toast.LENGTH_SHORT).show();
+                    return;
                 }
                 sex = rg_sex.getCheckedRadioButtonId() == R.id.rb_male ? 0 : 1;
-//                // 加载动画
-//                Animation.LoadingAnim(this, iv_rotate, tv_wait);
-                // 注册
                 registerLoading(username, password, phone, sex);
                 break;
         }

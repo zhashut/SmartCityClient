@@ -15,4 +15,6 @@
     <color name="green">#25CC92</color>
     <color name="commit">#1191FF</color>
     <color name="text_blue">#4F95FF</color>
+    <color name="red">#FF0000</color>
+    <color name="line">#B8B4B4</color>
 </resources>

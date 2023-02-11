@@ -1,5 +1,6 @@
 package com.zhashut.smartcityclient.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -25,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zhashut.smartcityclient.R;
+import com.zhashut.smartcityclient.activity.LoginActivity;
 import com.zhashut.smartcityclient.activity.SearchNewsActivity;
 import com.zhashut.smartcityclient.adapter.SliderAdapter;
 import com.zhashut.smartcityclient.bean.News;
@@ -36,6 +38,7 @@ import com.zhashut.smartcityclient.utils.ImageUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.PropertyResourceBundle;
 
 import static com.zhashut.smartcityclient.common.RequestUrl.NEWS_LIST;
 import static com.zhashut.smartcityclient.common.RequestUrl.REQUEST_URL;
@@ -103,19 +106,6 @@ public class HomeFragment extends Fragment implements TextView.OnEditorActionLis
         startActivity(intent);
     }
 
-//    public static HomeFragment newInstance(String param1, String param2) {
-//        HomeFragment fragment = new HomeFragment();
-//        Bundle args = new Bundle();
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-//
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        fm = getFragmentManager();
-//    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -139,7 +129,7 @@ public class HomeFragment extends Fragment implements TextView.OnEditorActionLis
     }
 
 
-    // 初始化所有服务
+    //  TODO 初始化所有服务
     private void initViewGridLayout(List<Service.ServiceList> serviceLists) {
         GridLayout glService = view.findViewById(R.id.gl_service);
         childCount = glService.getChildCount();

@@ -8,6 +8,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.util.PropertyResourceBundle;
+
 public class ImageUtil {
 
     public static void UploadImage(Context context, ImageView imgView, String imgpath, int width, int height) {

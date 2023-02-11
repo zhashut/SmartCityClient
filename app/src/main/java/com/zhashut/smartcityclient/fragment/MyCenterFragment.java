@@ -1,65 +1,69 @@
 package com.zhashut.smartcityclient.fragment;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
 import com.zhashut.smartcityclient.R;
+import com.zhashut.smartcityclient.activity.LoginActivity;
+import com.zhashut.smartcityclient.adapter.SystemAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link MyCenterFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MyCenterFragment extends Fragment {
+public class MyCenterFragment extends Fragment implements View.OnClickListener {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public MyCenterFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MyCenterFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MyCenterFragment newInstance(String param1, String param2) {
-        MyCenterFragment fragment = new MyCenterFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    private ListView lvSystem;
+    private String[] systems = {"个人信息", "修改密码", "意见反馈", "订单列表"};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_center, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_center, container, false);
+        TextView tvName = view.findViewById(R.id.tv_name);
+        tvName.setText("炸薯条");
+        lvSystem = view.findViewById(R.id.lv_system);
+        Button btnClose = view.findViewById(R.id.btn_close);
+        btnClose.setOnClickListener(this);
+        initAdapter();
+        return view;
+    }
+
+
+    /**
+     * 初始化适配器
+     */
+    private void initAdapter() {
+        SystemAdapter systemAdapter = new SystemAdapter(getContext(), systems);
+        lvSystem.setAdapter(systemAdapter);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_close:
+                AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+                dialog.setTitle("退出登录");
+                dialog.setMessage("你确定要退出登录吗");
+                dialog.setPositiveButton("确定", (a, b) -> {
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                });
+                dialog.setNegativeButton("取消", (a, b) -> {
+                });
+                dialog.create();
+                dialog.show();
+                break;
+        }
     }
 }

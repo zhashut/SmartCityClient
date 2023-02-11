@@ -82,7 +82,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         ck_remember.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SharedPreferences.Editor edit = preferences.edit();
             edit.putBoolean("isRemember", isChecked);
-            edit.commit();
+            edit.apply();
         });
         findViewById(R.id.btn_login).setOnClickListener(this);
         findViewById(R.id.btn_register).setOnClickListener(this);

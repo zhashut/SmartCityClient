@@ -13,8 +13,7 @@
             android:id="@+id/iv_news_img"
             android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_mode_conf"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY" />
 
         <LinearLayout
             android:layout_width="match_parent"
